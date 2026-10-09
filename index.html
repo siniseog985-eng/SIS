@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0a0a0c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LP STUDIO">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>LP STUDIO</title>
+<style>
+:root{--bg:#080809;--panel:#111113;--panel2:#18181b;--line:#29292d;--text:#f5f5f7;--muted:#9b9ba3;--accent:#fff;--danger:#ff453a;--radius:22px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif}
+body{min-height:100vh;overscroll-behavior:none}
+button,input,textarea,select{font:inherit}
+button{border:0;color:inherit;background:none}
+.app{min-height:100vh;padding-bottom:96px}
+.top{position:sticky;top:0;z-index:20;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;background:rgba(8,8,9,.82);backdrop-filter:blur(22px);border-bottom:1px solid rgba(255,255,255,.05)}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:22px;font-weight:800;letter-spacing:-.8px}.brand span{font-weight:400;color:#8e8e96}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:#1a1a1e;display:grid;place-items:center;font-size:21px}
+main{padding:22px 16px;max-width:720px;margin:auto}
+.hero{padding:6px 2px 22px}.eyebrow{color:#92929a;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}.hero h1{font-size:38px;line-height:1.03;letter-spacing:-1.7px;margin:8px 0}.hero p{color:var(--muted);margin:0;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.album-card{position:relative;overflow:hidden;background:var(--panel);border:1px solid #222225;border-radius:20px;cursor:pointer}.cover{aspect-ratio:1/1;background:linear-gradient(145deg,#29292f,#0f0f11);display:grid;place-items:center;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}.cover .placeholder{font-size:42px;color:#777}.album-info{padding:12px}.album-title{font-weight:750;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.album-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.fab{position:fixed;right:18px;bottom:88px;width:56px;height:56px;border-radius:50%;background:#fff;color:#000;font-size:28px;box-shadow:0 12px 35px rgba(0,0,0,.45);z-index:25}
+.empty{padding:42px 18px;text-align:center;background:var(--panel);border:1px dashed #2a2a2f;border-radius:24px;color:var(--muted)}
+.empty strong{display:block;color:#fff;font-size:18px;margin-bottom:7px}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:none;align-items:flex-end;backdrop-filter:blur(10px)}.sheet.open{display:flex}.sheetbox{width:100%;max-height:92vh;overflow:auto;background:#141416;border-radius:28px 28px 0 0;padding:10px 18px calc(24px + env(safe-area-inset-bottom));animation:up .22s ease}@keyframes up{from{transform:translateY(100%)}to{transform:none}}.grab{width:40px;height:5px;border-radius:5px;background:#555;margin:3px auto 18px}.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.sheethead h2{margin:0;font-size:22px}
+label{display:block;color:#aaa;font-size:12px;font-weight:700;margin:15px 0 7px}input,textarea,select{width:100%;background:#202023;color:#fff;border:1px solid #2e2e33;border-radius:14px;padding:13px 14px;outline:none}textarea{min-height:140px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:#777}.primary{width:100%;background:#fff;color:#000;padding:14px;border-radius:15px;font-weight:800;margin-top:18px}.secondary{background:#252529;padding:11px 14px;border-radius:13px;font-weight:700}.danger{color:#ff6b63}
+.detail-cover{width:min(78vw,330px);aspect-ratio:1;margin:4px auto 22px;border-radius:24px;overflow:hidden;background:#171719;box-shadow:0 25px 70px rgba(0,0,0,.45)}.detail-cover img{width:100%;height:100%;object-fit:cover}.detail-title{text-align:center;font-size:28px;letter-spacing:-1px;margin:0}.detail-meta{text-align:center;color:var(--muted);margin:7px 0 24px}.chips{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}.chip{background:#202023;border:1px solid #2a2a2f;border-radius:999px;padding:7px 11px;color:#ccc;font-size:12px}
+.section{margin-top:24px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-head h3{margin:0;font-size:17px}.track-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #202024}.track-thumb{width:52px;height:52px;border-radius:10px;background:#202023;overflow:hidden;display:grid;place-items:center;flex:none}.track-thumb img{width:100%;height:100%;object-fit:cover}.track-main{min-width:0;flex:1}.track-name{font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-sub{font-size:12px;color:var(--muted);margin-top:4px}.play{width:42px;height:42px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;flex:none}.check{display:flex;align-items:center;gap:11px;padding:11px 0}.check input{width:21px;height:21px;accent-color:#fff}.check span.done{text-decoration:line-through;color:#777}.lyrics{white-space:pre-wrap;line-height:1.75;color:#ddd;background:#111113;border-radius:18px;padding:16px}.audio{width:100%;margin-top:8px}
+.nav{position:fixed;z-index:30;left:0;right:0;bottom:0;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(12,12,13,.9);backdrop-filter:blur(24px);border-top:1px solid #222225;display:flex;justify-content:space-around}.nav button{color:#777;font-size:11px;min-width:70px}.nav button.active{color:#fff}.nav .ni{display:block;font-size:22px;margin-bottom:2px}
+.toast{position:fixed;z-index:100;left:50%;bottom:100px;transform:translateX(-50%);background:#eee;color:#111;padding:10px 15px;border-radius:999px;font-size:13px;font-weight:700;display:none}
+.back{display:flex;align-items:center;gap:7px;color:#aaa;margin-bottom:18px}.back b{color:#fff}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}main{padding-left:22px;padding-right:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="toprow"><div class="brand">LP <span>STUDIO</span></div><button class="iconbtn" onclick="openAlbumForm()">＋</button></div></header>
+<main id="main"></main>
+<nav class="nav">
+<button class="active" onclick="showHome()"><span class="ni">⌂</span>Home</button>
+<button onclick="showLibrary()"><span class="ni">▦</span>Library</button>
+<button onclick="showAbout()"><span class="ni">⋯</span>More</button>
+</nav>
+<button class="fab" onclick="openAlbumForm()">＋</button>
+</div>
+
+<div class="sheet" id="albumSheet" onclick="if(event.target===this)closeSheet('albumSheet')">
+<div class="sheetbox"><div class="grab"></div><div class="sheethead"><h2 id="albumFormTitle">새 앨범</h2><button class="secondary" onclick="closeSheet('albumSheet')">닫기</button></div>
+<input type="hidden" id="albumId">
+<label>앨범 이름</label><input id="albumName" placeholder="예: ROMANTIC">
+<label>아티스트</label><input id="albumArtist" placeholder="Artist">
+<label>연도</label><input id="albumYear" type="number" placeholder="2026">
+<label>앨범 설명</label><textarea id="albumDesc" placeholder="앨범의 콘셉트와 메모"></textarea>
+<label>앨범 커버</label><input id="albumCover" type="file" accept="image/*">
+<button class="primary" onclick="saveAlbum()">앨범 저장</button>
+</div></div>
+
+<div class="sheet" id="trackSheet" onclick="if(event.target===this)closeSheet('trackSheet')">
+<div class="sheetbox"><div class="grab"></div><div class="sheethead"><h2>새 트랙</h2><button class="secondary" onclick="closeSheet('trackSheet')">닫기</button></div>
+<input type="hidden" id="trackId"><input type="hidden" id="trackAlbumId">
+<label>곡 제목</label><input id="trackName" placeholder="예: cloud">
+<label>장르</label><input id="trackGenre" placeholder="R&B / UK Garage">
+<label>BPM</label><input id="trackBpm" type="number" placeholder="120">
+<label>Key</label><input id="trackKey" placeholder="F#m">
+<label>곡 설명</label><textarea id="trackDesc" placeholder="프로덕션 메모"></textarea>
+<label>가사</label><textarea id="trackLyrics" placeholder="가사를 입력하세요"></textarea>
+<label>커버</label><input id="trackCover" type="file" accept="image/*">
+<label>음원 (MP3 / WAV / FLAC 등)</label><input id="trackAudio" type="file" accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg">
+<button class="primary" onclick="saveTrack()">트랙 저장</button>
+</div></div>
+
+<div class="sheet" id="checkSheet" onclick="if(event.target===this)closeSheet('checkSheet')">
+<div class="sheetbox"><div class="grab"></div><div class="sheethead"><h2>Production Checklist</h2><button class="secondary" onclick="closeSheet('checkSheet')">닫기</button></div>
+<div id="checkList"></div><label>새 작업</label><input id="newCheck" placeholder="예: 보컬 컴핑"><button class="primary" onclick="addCheck()">작업 추가</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='lpstudio_pwa_v1';
+const DEFAULT_CHECKS=['Topline 정리','Vocal recording','Vocal comping','Pitch correction','Vocal edit','Drums / Groove','Bass','Keys / Chords','FX / Transition','Arrangement','Mixing','Mastering'];
+let state=JSON.parse(localStorage.getItem(KEY)||'{"albums":[]}');
+let currentAlbum=null,currentTrack=null;
+const $=id=>document.getElementById(id);
+const saveState=()=>localStorage.setItem(KEY,JSON.stringify(state));
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',1500)}
+function closeSheet(id){$(id).classList.remove('open')}
+function openSheet(id){$(id).classList.add('open')}
+
+function showHome(){
+ currentAlbum=null; renderHome(); document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===0));
+}
+function renderHome(){
+ $('main').innerHTML=`<section class="hero"><div class="eyebrow">Your music workspace</div><h1>Make music.<br>Keep everything.</h1><p>앨범부터 가사, 음원, 프로덕션 메모까지 한 곳에서.</p></section>
+ ${state.albums.length?`<div class="grid">${state.albums.map(albumCard).join('')}</div>`:`<div class="empty"><strong>첫 번째 앨범을 만들어보세요</strong>LP STUDIO에서 음악 작업을 시작하세요.<br><button class="primary" style="margin-top:15px" onclick="openAlbumForm()">+ 앨범 만들기</button></div>`}`;
+}
+function albumCard(a){return `<article class="album-card" onclick="openAlbum('${a.id}')"><div class="cover">${a.cover?`<img src="${a.cover}">`:`<div class="placeholder">♪</div>`}</div><div class="album-info"><div class="album-title">${esc(a.name||'Untitled')}</div><div class="album-sub">${esc(a.artist||'Artist')} · ${(a.tracks||[]).length} tracks</div></div></article>`}
+
+function openAlbumForm(id){
+ const a=id?state.albums.find(x=>x.id===id):null;
+ $('albumFormTitle').textContent=a?'앨범 편집':'새 앨범';$('albumId').value=a?.id||'';
+ $('albumName').value=a?.name||'';$('albumArtist').value=a?.artist||'';$('albumYear').value=a?.year||new Date().getFullYear();$('albumDesc').value=a?.desc||'';$('albumCover').value='';
+ openSheet('albumSheet');
+}
+async function saveAlbum(){
+ const id=$('albumId').value||crypto.randomUUID(); let a=state.albums.find(x=>x.id===id);
+ if(!a){a={id,tracks:[],checks:DEFAULT_CHECKS.map((name,i)=>({id:crypto.randomUUID(),name,done:false}))};state.albums.unshift(a)}
+ a.name=$('albumName').value.trim()||'Untitled';a.artist=$('albumArtist').value.trim()||'Artist';a.year=$('albumYear').value;a.desc=$('albumDesc').value;
+ const f=$('albumCover').files[0];if(f)a.cover=await fileToDataURL(f);
+ saveState();closeSheet('albumSheet');toast('앨범이 저장됐어요');renderHome();
+}
+function openAlbum(id){currentAlbum=id;renderAlbum()}
+function getAlbum(){return state.albums.find(x=>x.id===currentAlbum)}
+function renderAlbum(){
+ const a=getAlbum(); if(!a)return showHome();
+ $('main').innerHTML=`<div class="back" onclick="showHome()">‹ <b>Library</b></div>
+ <div class="detail-cover">${a.cover?`<img src="${a.cover}">`:`<div class="cover"><div class="placeholder">♪</div></div>`}</div>
+ <h1 class="detail-title">${esc(a.name)}</h1><div class="detail-meta">${esc(a.artist)} · ${esc(a.year)}</div>
+ <div class="chips">${a.tracks.length?`<span class="chip">${a.tracks.length} tracks</span>`:''}<span class="chip">LP STUDIO</span></div>
+ <div class="section"><div class="section-head"><h3>Tracks</h3><button class="secondary" onclick="openTrackForm()">＋ 추가</button></div>
+ ${a.tracks.length?a.tracks.map(trackRow).join(''):`<div class="empty">아직 트랙이 없습니다.</div>`}</div>
+ <div class="section"><div class="section-head"><h3>Production</h3><button class="secondary" onclick="openChecklist()">체크리스트</button></div>
+ <div class="lyrics">${esc(a.desc||'앨범 설명을 추가해보세요.')}</div></div>
+ <div class="section"><div class="section-head"><h3>Album</h3><div style="display:flex;gap:8px"><button class="secondary" onclick="openAlbumForm('${a.id}')">편집</button><button class="secondary danger" onclick="deleteAlbum()">삭제</button></div></div></div>`;
+}
+function trackRow(t){return `<div class="track-row" ondblclick="editTrack('${t.id}')"><div class="track-thumb">${t.cover?`<img src="${t.cover}">`:'♪'}</div><div class="track-main" onclick="editTrack('${t.id}')"><div class="track-name">${esc(t.name)} ${t.title?' · TITLE':''}</div><div class="track-sub">${esc(t.genre||'')}${t.bpm?' · '+t.bpm+' BPM':''}${t.key?' · '+esc(t.key):''}${t.audioName?' · '+esc(t.audioName):''}</div><div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap"><button class="chip" onclick="event.stopPropagation();setTitleTrack('${t.id}')">${t.title?'타이틀 해제':'타이틀 지정'}</button><button class="chip" onclick="event.stopPropagation();editTrack('${t.id}')">곡 편집</button></div></div><button class="play" onclick="event.stopPropagation();playTrack('${t.id}')">▶</button></div>`}
+
+function openTrackForm(id){
+ const a=getAlbum();currentTrack=id||null;const t=id?a.tracks.find(x=>x.id===id):null;
+ $('trackId').value=t?.id||'';$('trackAlbumId').value=a.id;$('trackName').value=t?.name||'';$('trackGenre').value=t?.genre||'';$('trackBpm').value=t?.bpm||'';$('trackKey').value=t?.key||'';$('trackDesc').value=t?.desc||'';$('trackLyrics').value=t?.lyrics||'';$('trackCover').value='';$('trackAudio').value='';openSheet('trackSheet');
+}
+async function saveTrack(){
+ const a=getAlbum();const id=$('trackId').value||crypto.randomUUID();let t=a.tracks.find(x=>x.id===id);
+ if(!t){t={id};a.tracks.push(t)}
+ t.name=$('trackName').value.trim()||'Untitled';t.genre=$('trackGenre').value.trim();t.bpm=$('trackBpm').value;t.key=$('trackKey').value.trim();t.desc=$('trackDesc').value;t.lyrics=$('trackLyrics').value;
+ const img=$('trackCover').files[0];if(img)t.cover=await fileToDataURL(img);
+ const audioFile=$('trackAudio').files[0];if(audioFile){
+  try { await idbPut('audio',id,audioFile); t.audioName=audioFile.name; t.audioType=audioFile.type||'audio/*'; }
+  catch(err){toast('음원 저장에 실패했어요. 기기의 저장 공간을 확인해 주세요.');}
+ }
+ saveState();closeSheet('trackSheet');toast('트랙이 저장됐어요');renderAlbum();
+}
+function editTrack(id){openTrackForm(id)}
+function setTitleTrack(id){
+ const a=getAlbum();if(!a)return;
+ a.tracks.forEach(t=>t.title=(t.id===id?!t.title:false));
+ saveState();renderAlbum();toast(a.tracks.find(t=>t.id===id)?.title?'타이틀곡으로 지정했어요':'타이틀곡 지정을 해제했어요');
+}
+async function playTrack(id){
+ const a=getAlbum(),t=a.tracks.find(x=>x.id===id);if(!t)return;
+ let blob=await idbGet('audio',id);if(!blob){toast('이 트랙에 음원이 없습니다');return}
+ if(window.currentAudio)window.currentAudio.pause();
+ const url=URL.createObjectURL(blob);const audio=new Audio(url);window.currentAudio=audio;audio.play();toast('재생 중 · '+t.name);
+}
+function openChecklist(){renderChecks();openSheet('checkSheet')}
+function renderChecks(){
+ const a=getAlbum();$('checkList').innerHTML=a.checks.map((c,i)=>`<div class="check"><input type="checkbox" ${c.done?'checked':''} onchange="toggleCheck(${i})"><span class="${c.done?'done':''}">${esc(c.name)}</span><button class="secondary danger" style="margin-left:auto" onclick="deleteCheck(${i})">삭제</button></div>`).join('');
+}
+function toggleCheck(i){const a=getAlbum();a.checks[i].done=!a.checks[i].done;saveState();renderChecks()}
+function addCheck(){const v=$('newCheck').value.trim();if(!v)return;const a=getAlbum();a.checks.push({id:crypto.randomUUID(),name:v,done:false});$('newCheck').value='';saveState();renderChecks()}
+function deleteCheck(i){getAlbum().checks.splice(i,1);saveState();renderChecks()}
+function deleteAlbum(){if(!confirm('이 앨범과 트랙을 삭제할까요?'))return;state.albums=state.albums.filter(a=>a.id!==currentAlbum);saveState();showHome();toast('앨범이 삭제됐어요')}
+
+function showLibrary(){currentAlbum=null;document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===1));$('main').innerHTML=`<section class="hero"><div class="eyebrow">Library</div><h1>Your albums.</h1><p>작업 중인 음악을 한눈에 관리하세요.</p></section>${state.albums.length?`<div class="grid">${state.albums.map(albumCard).join('')}</div>`:`<div class="empty"><strong>Library가 비어 있어요</strong>＋ 버튼으로 첫 앨범을 만들어보세요.</div>`}`}
+function showAbout(){document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===2));$('main').innerHTML=`<section class="hero"><div class="eyebrow">LP STUDIO</div><h1>Music,<br>organized.</h1><p>작곡·편곡 작업을 위한 개인 음악 워크스페이스.</p></section><div class="section"><div class="lyrics"><b>저장 방식</b><br><br>앨범과 작업 정보는 이 기기의 브라우저에 저장됩니다. MP3/WAV/FLAC 등의 음원 파일은 IndexedDB에 저장됩니다. 재생 가능 여부는 브라우저와 파일 형식에 따라 달라질 수 있습니다.<br><br><b>PWA 설치</b><br><br>Safari의 공유 메뉴에서 「홈 화면에 추가」를 선택하면 앱처럼 사용할 수 있습니다.</div></div>`}
+function fileToDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lpstudio_files',1);r.onupgradeneeded=()=>r.result.createObjectStore('audio');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function idbPut(store,key,val){const db=await idbOpen();return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(val,key);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
+async function idbGet(store,key){const db=await idbOpen();return new Promise((res,rej)=>{const tx=db.transaction(store,'readonly');const r=tx.objectStore(store).get(key);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+showHome();
+</script>
+</body>
+</html>
