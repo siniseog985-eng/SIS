@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#0a0a0c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="LP STUDIO">
+<meta name="apple-mobile-web-app-title" content="SIS STUDIO">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>LP STUDIO</title>
+<title>SIS STUDIO</title>
 <style>
 :root{--bg:#080809;--panel:#111113;--panel2:#18181b;--line:#29292d;--text:#f5f5f7;--muted:#9b9ba3;--accent:#fff;--danger:#ff453a;--radius:22px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -35,11 +35,41 @@ label{display:block;color:#aaa;font-size:12px;font-weight:700;margin:15px 0 7px}
 .toast{position:fixed;z-index:100;left:50%;bottom:100px;transform:translateX(-50%);background:#eee;color:#111;padding:10px 15px;border-radius:999px;font-size:13px;font-weight:700;display:none}
 .back{display:flex;align-items:center;gap:7px;color:#aaa;margin-bottom:18px}.back b{color:#fff}
 @media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}main{padding-left:22px;padding-right:22px}}
+
+/* Now-playing experience: preserves the original SIS STUDIO visual identity */
+.now-playing{position:fixed;inset:0;z-index:80;display:none;overflow:auto;background:#101113;color:#fff;padding:calc(14px + env(safe-area-inset-top)) 22px calc(24px + env(safe-area-inset-bottom));}
+.now-playing.open{display:block}
+.np-backdrop{position:absolute;inset:0;background-position:center;background-size:cover;filter:blur(35px);opacity:.42;transform:scale(1.15)}
+.np-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,12,.52),rgba(8,10,12,.88) 62%,#101113)}
+.np-content{position:relative;z-index:1;max-width:680px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.np-top{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;text-align:center;margin-bottom:clamp(24px,6vh,56px)}
+.np-top button,.np-icon{font-size:24px;color:white;background:transparent;padding:6px}
+.np-top-title{font-size:13px;font-weight:750;letter-spacing:.4px}.np-top-sub{font-size:12px;color:#d0d0d0;margin-top:4px}
+.np-cover{width:min(82vw,460px);aspect-ratio:1;object-fit:cover;border-radius:9px;margin:0 auto clamp(24px,5vh,48px);box-shadow:0 18px 55px #0007;background:#29292d}
+.np-trackhead{display:flex;align-items:center;gap:14px;margin-bottom:20px}.np-trackinfo{flex:1;min-width:0}.np-tracktitle{font-size:clamp(23px,5vw,30px);font-weight:800;overflow-wrap:anywhere}.np-trackartist{font-size:16px;color:#c4c4c7;margin-top:5px}.np-check{color:#20d36b;font-size:28px}
+.np-seek{width:100%;accent-color:#fff;margin:4px 0 0}.np-times{display:flex;justify-content:space-between;color:#c4c4c7;font-size:12px;margin-top:2px}
+.np-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:clamp(22px,5vh,42px) 0 20px}.np-control{font-size:25px;background:transparent;color:#fff;padding:8px}.np-control.muted{color:#8d9295}.np-control.on{color:#22d36b}.np-play{width:78px;height:78px;border-radius:50%;background:#fff;color:#111;font-size:30px;display:grid;place-items:center;flex-shrink:0}
+.np-tools{display:flex;align-items:center;justify-content:space-between;margin:4px 0 22px;color:#eee}.np-tool{display:flex;align-items:center;gap:8px;background:transparent;color:#eee;font-size:14px;padding:8px 0}
+.np-lyrics{background:rgba(130,174,132,.94);color:#071008;border-radius:24px;padding:20px 18px 26px;margin:0 -2px 18px;max-height:34vh;overflow:hidden;position:relative}
+.np-lyrics:after{content:"";position:absolute;bottom:0;left:0;right:0;height:44px;background:linear-gradient(transparent,rgba(130,174,132,.96));pointer-events:none}
+.np-lyrics-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:17px;font-weight:800}.np-lyrics-actions{display:flex;gap:8px}.np-lyrics-actions button{background:#42684766;border-radius:50%;width:40px;height:40px;font-size:18px}
+.np-lyrics-text{font-size:clamp(19px,4.6vw,25px);font-weight:750;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.np-lyrics-full{position:fixed;inset:0;z-index:95;background:#5b805f;color:#050905;display:none;padding:calc(16px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));overflow:auto}
+.np-lyrics-full.open{display:block}.np-lyrics-full-head{display:grid;grid-template-columns:42px 1fr 42px;text-align:center;align-items:center;margin-bottom:42px;color:white}.np-lyrics-full-head button{background:transparent;color:white;font-size:25px}.np-lyrics-full-title{font-size:14px;font-weight:800}.np-lyrics-full-artist{font-size:13px;margin-top:4px}
+.np-lyrics-full-text{font-size:clamp(22px,5vw,30px);line-height:1.85;font-weight:800;white-space:pre-wrap;overflow-wrap:anywhere}
+.np-queue{position:fixed;inset:0;z-index:96;display:none;overflow:auto;background:#11151a;color:white;padding:calc(16px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
+.np-queue.open{display:block}.np-queue-head{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;text-align:center;margin-bottom:28px}.np-queue-head button{background:transparent;color:white;font-size:25px}.np-queue-title{font-weight:800}.np-queue-cover{width:min(90%,460px);aspect-ratio:1;object-fit:cover;border-radius:9px;display:block;margin:0 auto 26px}.np-queue-tracktitle{font-size:30px;font-weight:850}.np-queue-meta{color:#aaa;margin-top:6px;margin-bottom:25px}.np-queue-list{margin-top:22px}.np-queue-row{display:flex;align-items:center;gap:12px;padding:11px 0}.np-queue-row img,.np-queue-thumb{width:48px;height:48px;object-fit:cover;border-radius:6px;background:#29292d;display:grid;place-items:center}.np-queue-row-main{flex:1;min-width:0}.np-queue-row-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.np-queue-row-sub{color:#aaa;font-size:13px;margin-top:4px}.np-queue-row button{background:transparent;color:#aaa;font-size:21px;padding:8px}
+@media(max-height:760px){.np-top{margin-bottom:16px}.np-cover{width:min(55vh,70vw);margin-bottom:18px}.np-controls{margin:16px 0}.np-play{width:64px;height:64px}.np-lyrics{max-height:25vh}}
+
+.mini-player{position:fixed;z-index:75;left:12px;right:12px;bottom:calc(70px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:14px;background:rgba(29,34,37,.96);border:1px solid #34383b;box-shadow:0 8px 28px #0008;backdrop-filter:blur(18px);cursor:pointer}
+.mini-player img{width:44px;height:44px;border-radius:7px;object-fit:cover;background:#29292d}
+.mini-info{flex:1;min-width:0}.mini-info div:first-child{font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mini-info div:last-child{font-size:12px;color:#aaa;margin-top:4px}
+.mini-player button{font-size:23px;background:transparent;padding:8px;color:#fff}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="toprow"><div class="brand">LP <span>STUDIO</span></div><button class="iconbtn" onclick="openAlbumForm()">＋</button></div></header>
+<header class="top"><div class="toprow"><div class="brand">SIS <span>STUDIO</span></div><button class="iconbtn" onclick="openAlbumForm()">＋</button></div></header>
 <main id="main"></main>
 <nav class="nav">
 <button class="active" onclick="showHome()"><span class="ni">⌂</span>Home</button>
@@ -70,7 +100,7 @@ label{display:block;color:#aaa;font-size:12px;font-weight:700;margin:15px 0 7px}
 <label>곡 설명</label><textarea id="trackDesc" placeholder="프로덕션 메모"></textarea>
 <label>가사</label><textarea id="trackLyrics" placeholder="가사를 입력하세요"></textarea>
 <label>커버</label><input id="trackCover" type="file" accept="image/*">
-<label>음원 (MP3 / WAV / FLAC 등)</label><input id="trackAudio" type="file" accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg">
+<label>음원</label><input id="trackAudio" type="file" accept="audio/*,.mp3,.wav,.flac,.m4a,.aac,.ogg">
 <button class="primary" onclick="saveTrack()">트랙 저장</button>
 </div></div>
 
@@ -78,6 +108,33 @@ label{display:block;color:#aaa;font-size:12px;font-weight:700;margin:15px 0 7px}
 <div class="sheetbox"><div class="grab"></div><div class="sheethead"><h2>Production Checklist</h2><button class="secondary" onclick="closeSheet('checkSheet')">닫기</button></div>
 <div id="checkList"></div><label>새 작업</label><input id="newCheck" placeholder="예: 보컬 컴핑"><button class="primary" onclick="addCheck()">작업 추가</button></div></div>
 <div class="toast" id="toast"></div>
+<div class="now-playing" id="nowPlaying">
+ <div class="np-backdrop" id="npBackdrop"></div><div class="np-shade"></div>
+ <div class="np-content">
+  <div class="np-top"><button onclick="closeNowPlaying()" aria-label="닫기">⌄</button><div><div class="np-top-title" id="npAlbumTitle">NOW PLAYING</div><div class="np-top-sub" id="npAlbumArtist">SIS STUDIO</div></div><button onclick="openQueue()" aria-label="재생목록">···</button></div>
+  <img class="np-cover" id="npCover" alt="앨범 커버">
+  <div class="np-trackhead"><div class="np-trackinfo"><div class="np-tracktitle" id="npTrackTitle">곡 제목</div><div class="np-trackartist" id="npTrackArtist">아티스트</div></div><div class="np-check">✓</div></div>
+  <input class="np-seek" id="npSeek" type="range" min="0" max="1000" value="0" aria-label="재생 위치">
+  <div class="np-times"><span id="npElapsed">0:00</span><span id="npRemaining">-0:00</span></div>
+  <div class="np-controls">
+   <button class="np-control muted" id="npShuffle" onclick="togglePlayerShuffle()">⤨</button>
+   <button class="np-control" onclick="playAdjacent(-1)">|◀</button>
+   <button class="np-play" id="npPlay" onclick="togglePlayback()">▶</button>
+   <button class="np-control" onclick="playAdjacent(1)">▶|</button>
+   <button class="np-control muted" id="npRepeat" onclick="togglePlayerRepeat()">↻</button>
+  </div>
+  <div class="np-tools"><button class="np-tool" onclick="toast('현재 기기에서 재생 중')">▣ <span>이 기기</span></button><button class="np-tool" onclick="shareCurrentTrack()">⇧</button><button class="np-tool" onclick="openQueue()">☷</button></div>
+  <div class="np-lyrics"><div class="np-lyrics-head"><span>가사</span><div class="np-lyrics-actions"><button onclick="shareLyrics()">⇧</button><button onclick="openFullLyrics()">⛶</button></div></div><div class="np-lyrics-text" id="npLyricsPreview">이 곡에 등록된 가사가 없습니다.</div></div>
+ </div>
+</div>
+<div class="mini-player" id="miniPlayer" style="display:none" onclick="openNowPlaying()">
+  <img id="miniCover" alt="" />
+  <div class="mini-info"><div id="miniTitle">곡 제목</div><div id="miniArtist">아티스트</div></div>
+  <button id="miniPlay" onclick="event.stopPropagation();togglePlayback()" aria-label="재생/일시정지">▶</button>
+</div>
+<div class="np-lyrics-full" id="fullLyrics"><div class="np-lyrics-full-head"><button onclick="closeFullLyrics()">⌄</button><div><div class="np-lyrics-full-title" id="fullLyricsTitle">곡 제목</div><div class="np-lyrics-full-artist" id="fullLyricsArtist">아티스트</div></div><button onclick="shareLyrics()">⇧</button></div><div class="np-lyrics-full-text" id="fullLyricsText"></div></div>
+<div class="np-queue" id="npQueue"><div class="np-queue-head"><button onclick="closeQueue()">⌄</button><div class="np-queue-title">재생목록</div><button onclick="closeQueue()">···</button></div><img class="np-queue-cover" id="queueCover" alt=""><div class="np-queue-tracktitle" id="queueTrackTitle"></div><div class="np-queue-meta" id="queueTrackArtist"></div><div class="np-queue-list" id="queueList"></div></div>
+
 
 <script>
 const KEY='lpstudio_pwa_v1';
@@ -96,7 +153,7 @@ function showHome(){
 }
 function renderHome(){
  $('main').innerHTML=`<section class="hero"><div class="eyebrow">Your music workspace</div><h1>Make music.<br>Keep everything.</h1><p>앨범부터 가사, 음원, 프로덕션 메모까지 한 곳에서.</p></section>
- ${state.albums.length?`<div class="grid">${state.albums.map(albumCard).join('')}</div>`:`<div class="empty"><strong>첫 번째 앨범을 만들어보세요</strong>LP STUDIO에서 음악 작업을 시작하세요.<br><button class="primary" style="margin-top:15px" onclick="openAlbumForm()">+ 앨범 만들기</button></div>`}`;
+ ${state.albums.length?`<div class="grid">${state.albums.map(albumCard).join('')}</div>`:`<div class="empty"><strong>첫 번째 앨범을 만들어보세요</strong>SIS STUDIO에서 음악 작업을 시작하세요.<br><button class="primary" style="margin-top:15px" onclick="openAlbumForm()">+ 앨범 만들기</button></div>`}`;
 }
 function albumCard(a){return `<article class="album-card" onclick="openAlbum('${a.id}')"><div class="cover">${a.cover?`<img src="${a.cover}">`:`<div class="placeholder">♪</div>`}</div><div class="album-info"><div class="album-title">${esc(a.name||'Untitled')}</div><div class="album-sub">${esc(a.artist||'Artist')} · ${(a.tracks||[]).length} tracks</div></div></article>`}
 
@@ -120,14 +177,14 @@ function renderAlbum(){
  $('main').innerHTML=`<div class="back" onclick="showHome()">‹ <b>Library</b></div>
  <div class="detail-cover">${a.cover?`<img src="${a.cover}">`:`<div class="cover"><div class="placeholder">♪</div></div>`}</div>
  <h1 class="detail-title">${esc(a.name)}</h1><div class="detail-meta">${esc(a.artist)} · ${esc(a.year)}</div>
- <div class="chips">${a.tracks.length?`<span class="chip">${a.tracks.length} tracks</span>`:''}<span class="chip">LP STUDIO</span></div>
+ <div class="chips">${a.tracks.length?`<span class="chip">${a.tracks.length} tracks</span>`:''}<span class="chip">SIS STUDIO</span></div>
  <div class="section"><div class="section-head"><h3>Tracks</h3><button class="secondary" onclick="openTrackForm()">＋ 추가</button></div>
  ${a.tracks.length?a.tracks.map(trackRow).join(''):`<div class="empty">아직 트랙이 없습니다.</div>`}</div>
  <div class="section"><div class="section-head"><h3>Production</h3><button class="secondary" onclick="openChecklist()">체크리스트</button></div>
  <div class="lyrics">${esc(a.desc||'앨범 설명을 추가해보세요.')}</div></div>
- <div class="section"><div class="section-head"><h3>Album</h3><div style="display:flex;gap:8px"><button class="secondary" onclick="openAlbumForm('${a.id}')">편집</button><button class="secondary danger" onclick="deleteAlbum()">삭제</button></div></div></div>`;
+ <div class="section"><div class="section-head"><h3>Album</h3><button class="secondary danger" onclick="deleteAlbum()">삭제</button></div></div>`;
 }
-function trackRow(t){return `<div class="track-row" ondblclick="editTrack('${t.id}')"><div class="track-thumb">${t.cover?`<img src="${t.cover}">`:'♪'}</div><div class="track-main" onclick="editTrack('${t.id}')"><div class="track-name">${esc(t.name)} ${t.title?' · TITLE':''}</div><div class="track-sub">${esc(t.genre||'')}${t.bpm?' · '+t.bpm+' BPM':''}${t.key?' · '+esc(t.key):''}${t.audioName?' · '+esc(t.audioName):''}</div><div style="display:flex;gap:6px;margin-top:7px;flex-wrap:wrap"><button class="chip" onclick="event.stopPropagation();setTitleTrack('${t.id}')">${t.title?'타이틀 해제':'타이틀 지정'}</button><button class="chip" onclick="event.stopPropagation();editTrack('${t.id}')">곡 편집</button></div></div><button class="play" onclick="event.stopPropagation();playTrack('${t.id}')">▶</button></div>`}
+function trackRow(t){return `<div class="track-row" ondblclick="editTrack('${t.id}')"><div class="track-thumb">${t.cover?`<img src="${t.cover}">`:'♪'}</div><div class="track-main"><div class="track-name">${esc(t.name)} ${t.title?' · TITLE':''}</div><div class="track-sub">${esc(t.genre||'')}${t.bpm?' · '+t.bpm+' BPM':''}${t.key?' · '+esc(t.key):''}</div></div><button class="play" onclick="event.stopPropagation();playTrack('${t.id}')">▶</button></div>`}
 
 function openTrackForm(id){
  const a=getAlbum();currentTrack=id||null;const t=id?a.tracks.find(x=>x.id===id):null;
@@ -138,24 +195,119 @@ async function saveTrack(){
  if(!t){t={id};a.tracks.push(t)}
  t.name=$('trackName').value.trim()||'Untitled';t.genre=$('trackGenre').value.trim();t.bpm=$('trackBpm').value;t.key=$('trackKey').value.trim();t.desc=$('trackDesc').value;t.lyrics=$('trackLyrics').value;
  const img=$('trackCover').files[0];if(img)t.cover=await fileToDataURL(img);
- const audioFile=$('trackAudio').files[0];if(audioFile){
-  try { await idbPut('audio',id,audioFile); t.audioName=audioFile.name; t.audioType=audioFile.type||'audio/*'; }
-  catch(err){toast('음원 저장에 실패했어요. 기기의 저장 공간을 확인해 주세요.');}
- }
+ const audio=$('trackAudio').files[0];if(audio){await idbPut('audio',id,audio);t.audioName=audio.name}
  saveState();closeSheet('trackSheet');toast('트랙이 저장됐어요');renderAlbum();
 }
 function editTrack(id){openTrackForm(id)}
-function setTitleTrack(id){
- const a=getAlbum();if(!a)return;
- a.tracks.forEach(t=>t.title=(t.id===id?!t.title:false));
- saveState();renderAlbum();toast(a.tracks.find(t=>t.id===id)?.title?'타이틀곡으로 지정했어요':'타이틀곡 지정을 해제했어요');
+let activeTrackId=null;
+let activeAudio=null;
+let playerShuffle=false;
+let playerRepeat=false;
+let seekDragging=false;
+function trackDetails(id){
+ const a=state.albums.flatMap(x=>x.tracks.map(t=>({...t,_album:x}))).find(t=>t.id===id);
+ return a||null;
+}
+function setPlayerButton(){
+ const playing=!!(activeAudio&&!activeAudio.paused);
+ const b=$('npPlay'); if(b)b.textContent=playing?'Ⅱ':'▶';
+ const mb=$('miniPlay'); if(mb)mb.textContent=playing?'Ⅱ':'▶';
+}
+function openNowPlaying(){
+ const t=activeTrackId?trackDetails(activeTrackId):null;
+ if(!t){toast('먼저 재생할 곡을 선택하세요');return}
+ $('nowPlaying').classList.add('open');
+ $('miniPlayer').style.display='none';
+ updatePlayerView(t);
+ setPlayerButton();
+}
+function closeNowPlaying(){
+ $('nowPlaying').classList.remove('open');
+ $('fullLyrics').classList.remove('open');
+ $('npQueue').classList.remove('open');
+ if(activeTrackId){$('miniPlayer').style.display='flex';}
+}
+function updatePlayerView(t){
+ if(!t)return;
+ const a=t._album||getAlbum();
+ $('npAlbumTitle').textContent=a.name||'NOW PLAYING';
+ $('npAlbumArtist').textContent=a.artist||'SIS STUDIO';
+ $('npTrackTitle').textContent=t.name||'Untitled';
+ $('npTrackArtist').textContent=t.artist||a.artist||'';
+ $('npCover').src=t.cover||a.cover||'';
+ $('npBackdrop').style.backgroundImage=`url("${t.cover||a.cover||''}")`;
+ $('npLyricsPreview').textContent=t.lyrics||'이 곡에 등록된 가사가 없습니다.';
+ $('fullLyricsTitle').textContent=t.name||'곡 제목';
+ $('fullLyricsArtist').textContent=t.artist||a.artist||'';
+ $('fullLyricsText').textContent=t.lyrics||'등록된 가사가 없습니다.';
+ $('miniCover').src=t.cover||a.cover||'';
+ $('miniTitle').textContent=t.name||'Untitled';
+ $('miniArtist').textContent=t.artist||a.artist||'';
+ const rows=state.albums.flatMap(al=>al.tracks.map(x=>({...x,_album:al})));
+ $('npQueue').classList.remove('open');
+ $('queueCover').src=t.cover||a.cover||'';
+ $('queueTrackTitle').textContent=t.name||'';
+ $('queueTrackArtist').textContent=t.artist||a.artist||'';
+ $('queueList').innerHTML=rows.map((x,i)=>`<div class="np-queue-row"><div class="np-queue-thumb">${x.cover?`<img src="${x.cover}" style="width:48px;height:48px;object-fit:cover;border-radius:6px">`:'♪'}</div><div class="np-queue-row-main"><div class="np-queue-row-name">${esc(x.name)}</div><div class="np-queue-row-sub">${esc(x._album.name||'Album')} · ${esc(x.genre||'')}</div></div><button onclick="playTrack('${x.id}')">▶</button></div>`).join('');
 }
 async function playTrack(id){
- const a=getAlbum(),t=a.tracks.find(x=>x.id===id);if(!t)return;
- let blob=await idbGet('audio',id);if(!blob){toast('이 트랙에 음원이 없습니다');return}
- if(window.currentAudio)window.currentAudio.pause();
- const url=URL.createObjectURL(blob);const audio=new Audio(url);window.currentAudio=audio;audio.play();toast('재생 중 · '+t.name);
+ const t=trackDetails(id);if(!t)return;
+ const blob=await idbGet('audio',id);
+ if(!blob){toast('이 트랙에 음원이 없습니다. 트랙 편집에서 음원 파일을 추가하세요.');return}
+ if(activeAudio) {activeAudio.pause();activeAudio.src='';}
+ activeTrackId=id;
+ const url=URL.createObjectURL(blob);
+ const audio=new Audio(url);
+ activeAudio=audio;
+ audio.addEventListener('timeupdate',()=>{
+   if(!seekDragging&&audio.duration){
+    $('npSeek').value=Math.round(audio.currentTime/audio.duration*1000);
+    $('npElapsed').textContent=playerTime(audio.currentTime);
+    $('npRemaining').textContent='-'+playerTime(Math.max(0,audio.duration-audio.currentTime));
+   }
+ });
+ audio.addEventListener('loadedmetadata',()=>{
+   $('npSeek').value=0;$('npElapsed').textContent='0:00';$('npRemaining').textContent='-'+playerTime(audio.duration||0);
+ });
+ audio.addEventListener('play',setPlayerButton);
+ audio.addEventListener('pause',setPlayerButton);
+ audio.addEventListener('ended',()=>{
+   if(playerRepeat){audio.currentTime=0;audio.play().catch(()=>{});return}
+   playAdjacent(1);
+ });
+ updatePlayerView(t);
+ $('nowPlaying').classList.add('open');
+ $('miniPlayer').style.display='none';
+ try{await audio.play();setPlayerButton();}catch(e){setPlayerButton();toast('이 파일을 재생할 수 없어요. 브라우저의 오디오 형식 지원을 확인해 주세요.')}
 }
+function playerTime(value){if(!Number.isFinite(value))return '0:00';const n=Math.floor(value);return Math.floor(n/60)+':'+String(n%60).padStart(2,'0')}
+function togglePlayback(){
+ if(!activeAudio){if(activeTrackId)playTrack(activeTrackId);else toast('먼저 재생할 곡을 선택하세요');return}
+ if(activeAudio.paused)activeAudio.play().then(setPlayerButton).catch(()=>toast('재생을 시작하지 못했어요'));
+ else activeAudio.pause();
+ setPlayerButton();
+}
+function playAdjacent(direction){
+ const all=state.albums.flatMap(a=>a.tracks.map(t=>({...t,_album:a})));
+ if(!all.length)return;
+ let i=all.findIndex(t=>t.id===activeTrackId);
+ if(playerShuffle&&all.length>1){let next=i;while(next===i)next=Math.floor(Math.random()*all.length);i=next}
+ else i=(i+direction+all.length)%all.length;
+ playTrack(all[i].id);
+}
+function togglePlayerShuffle(){playerShuffle=!playerShuffle;$('npShuffle').classList.toggle('on',playerShuffle)}
+function togglePlayerRepeat(){playerRepeat=!playerRepeat;$('npRepeat').classList.toggle('on',playerRepeat);if(activeAudio)activeAudio.loop=false}
+function openFullLyrics(){$('fullLyrics').classList.add('open')}
+function closeFullLyrics(){$('fullLyrics').classList.remove('open')}
+function openQueue(){$('npQueue').classList.add('open')}
+function closeQueue(){$('npQueue').classList.remove('open')}
+function shareCurrentTrack(){const t=activeTrackId?trackDetails(activeTrackId):null;if(navigator.share&&t)navigator.share({title:t.name,text:`${t.name} — SIS STUDIO`}).catch(()=>{});else toast('공유 기능은 기기에서 지원될 때 사용할 수 있어요')}
+function shareLyrics(){const t=activeTrackId?trackDetails(activeTrackId):null;if(!t)return;const text=`${t.name}
+
+${t.lyrics||''}`;if(navigator.share)navigator.share({title:t.name,text}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(text).then(()=>toast('가사를 복사했어요')).catch(()=>toast('공유 기능을 사용할 수 없어요'));else toast('공유 기능을 사용할 수 없어요')}
+$('npSeek').addEventListener('input',()=>{seekDragging=true;const d=activeAudio?.duration||0;const val=Number($('npSeek').value)/1000*d;$('npElapsed').textContent=playerTime(val);$('npRemaining').textContent='-'+playerTime(Math.max(0,d-val))});
+$('npSeek').addEventListener('change',()=>{if(activeAudio&&activeAudio.duration)activeAudio.currentTime=Number($('npSeek').value)/1000*activeAudio.duration;seekDragging=false});
+
 function openChecklist(){renderChecks();openSheet('checkSheet')}
 function renderChecks(){
  const a=getAlbum();$('checkList').innerHTML=a.checks.map((c,i)=>`<div class="check"><input type="checkbox" ${c.done?'checked':''} onchange="toggleCheck(${i})"><span class="${c.done?'done':''}">${esc(c.name)}</span><button class="secondary danger" style="margin-left:auto" onclick="deleteCheck(${i})">삭제</button></div>`).join('');
@@ -166,7 +318,7 @@ function deleteCheck(i){getAlbum().checks.splice(i,1);saveState();renderChecks()
 function deleteAlbum(){if(!confirm('이 앨범과 트랙을 삭제할까요?'))return;state.albums=state.albums.filter(a=>a.id!==currentAlbum);saveState();showHome();toast('앨범이 삭제됐어요')}
 
 function showLibrary(){currentAlbum=null;document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===1));$('main').innerHTML=`<section class="hero"><div class="eyebrow">Library</div><h1>Your albums.</h1><p>작업 중인 음악을 한눈에 관리하세요.</p></section>${state.albums.length?`<div class="grid">${state.albums.map(albumCard).join('')}</div>`:`<div class="empty"><strong>Library가 비어 있어요</strong>＋ 버튼으로 첫 앨범을 만들어보세요.</div>`}`}
-function showAbout(){document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===2));$('main').innerHTML=`<section class="hero"><div class="eyebrow">LP STUDIO</div><h1>Music,<br>organized.</h1><p>작곡·편곡 작업을 위한 개인 음악 워크스페이스.</p></section><div class="section"><div class="lyrics"><b>저장 방식</b><br><br>앨범과 작업 정보는 이 기기의 브라우저에 저장됩니다. MP3/WAV/FLAC 등의 음원 파일은 IndexedDB에 저장됩니다. 재생 가능 여부는 브라우저와 파일 형식에 따라 달라질 수 있습니다.<br><br><b>PWA 설치</b><br><br>Safari의 공유 메뉴에서 「홈 화면에 추가」를 선택하면 앱처럼 사용할 수 있습니다.</div></div>`}
+function showAbout(){document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===2));$('main').innerHTML=`<section class="hero"><div class="eyebrow">SIS STUDIO</div><h1>Music,<br>organized.</h1><p>작곡·편곡 작업을 위한 개인 음악 워크스페이스.</p></section><div class="section"><div class="lyrics"><b>저장 방식</b><br><br>앨범과 작업 정보는 이 기기의 브라우저에 저장됩니다. 업로드한 음원은 IndexedDB에 저장되어 앱을 다시 열어도 유지됩니다.<br><br><b>PWA 설치</b><br><br>Safari의 공유 메뉴에서 「홈 화면에 추가」를 선택하면 앱처럼 사용할 수 있습니다.</div></div>`}
 function fileToDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('lpstudio_files',1);r.onupgradeneeded=()=>r.result.createObjectStore('audio');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
 async function idbPut(store,key,val){const db=await idbOpen();return new Promise((res,rej)=>{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(val,key);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
